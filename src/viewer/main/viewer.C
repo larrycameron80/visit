@@ -231,11 +231,13 @@ ViewerMain(int argc, char *argv[])
         qInstallMessageHandler(Viewer_LogQtMessages);
         int argc2 = real_argc + nExtraArgs;
 
+#if 0  // commented out because with qt 5.12.0, causes the entire screen to go black when viewer window active
         // Setting default QSurfaceFormat required with QVTKOpenGLwidget
         auto surfaceFormat = QVTKOpenGLWidget::defaultFormat();
         surfaceFormat.setSamples(0);
         surfaceFormat.setAlphaBufferSize(0);
         QSurfaceFormat::setDefaultFormat(surfaceFormat);
+#endif
 
         QApplication *mainApp = new QApplication(argc2, argv2, !viewer.GetNowinMode());
 
