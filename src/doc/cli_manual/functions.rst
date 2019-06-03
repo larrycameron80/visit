@@ -253,18 +253,16 @@ databases : tuple or list of strings
 
 method : integer
     The method argument must be an integer in the range [0,3].
-
-    +-------------------------------+-------+
-    | **Correlation method**        | Value |
-    +-------------------------------+-------+
-    | IndexForIndexCorrelation      | 0     |
-    +-------------------------------+-------+
-    | StretchedIndexCorrelation     | 1     |
-    +-------------------------------+-------+
-    | TimeCorrelation               | 2     |
-    +-------------------------------+-------+
-    | CycleCorrelation              | 3     |
-    +-------------------------------+-------+
+    
+    
+    =========================  =====
+    **Correlation method**     Value
+    =========================  =====
+    IndexForIndexCorrelation   0
+    StretchedIndexCorrelation  1
+    TimeCorrelation            2
+    CycleCorrelation           3
+    =========================  =====
 
 return type : CLI_return_t
     The AlterDatabaseCorrelation function returns 1 on success and 0 on
@@ -1243,20 +1241,16 @@ CreateAnnotationObject
 
 annotType : string
     The name of the type of annotation object to create.
-
-    +----------------------------+--------------+
-    | **Annotation type**        | String       |
-    +----------------------------+--------------+
-    | 2D text annotation         | "Text2D"     |
-    +----------------------------+--------------+
-    | 3D text annotation         | "Text3D"     |
-    +----------------------------+--------------+
-    | Time slider annotation     | "TimeSlider" |
-    +----------------------------+--------------+
-    | Image annotation           | "Image"      |
-    +----------------------------+--------------+
-    | Line/arrow annotation      | "Line2D"     |
-    +----------------------------+--------------+
+    
+    ======================  ==========
+    **Annotation type**     String
+    ======================  ==========
+    2D text annotation      Text2D
+    3D text annotation      Text3D
+    Time slider annotation  TimeSlider
+    Image annotation        Image
+    Line/arrow annotation   Line2D
+    ======================  ==========
 
 annotName : string
     A user-defined name of the annotation object to create.
@@ -1319,18 +1313,15 @@ databases : tuple or list of strings
 
 method : integer
     An integer in the range [0,3] that determines the correlation method.
-
-    +-------------------------------+-------+
-    | **Correlation method**        | Value |
-    +-------------------------------+-------+
-    | IndexForIndexCorrelation      | 0     |
-    +-------------------------------+-------+
-    | StretchedIndexCorrelation     | 1     |
-    +-------------------------------+-------+
-    | TimeCorrelation               | 2     |
-    +-------------------------------+-------+
-    | CycleCorrelation              | 3     |
-    +-------------------------------+-------+
+    
+    =========================  =====
+    **Correlation method**     Value
+    =========================  =====
+    IndexForIndexCorrelation   0
+    StretchedIndexCorrelation  1
+    TimeCorrelation            2
+    CycleCorrelation           3
+    =========================  =====
 
 return type : CLI_return_t
     The CreateDatabaseCorrelation function returns 1 on success and 0 on
@@ -6072,16 +6063,13 @@ host : string
 
 args : tuple
     A tuple of strings containing command line flags for the metadata server.
-
-    +-------------------+--------------------------------+
-    | **Argument**      | Description                    |
-    +-------------------+--------------------------------+
-    | -debug #          | The -debug argument allows you |
-    |                   | to specify a debug level.      |
-    +-------------------+--------------------------------+
-    | -dir visitdir     | The -dir argument allows you   |
-    |                   | to specify where VisIt is.     |
-    +-------------------+--------------------------------+
+    
+    =============  ========================================================
+    **Argument**   Description
+    =============  ========================================================
+    -debug #       The -debug argument allows you to specify a debug level.
+    -dir visitdir  The -dir argument allows you to specify where VisIt is.
+    =============  ========================================================
 
 MachineProfile : MachineProfile object
     MachineProfile object to load with OpenMDServer call
@@ -8701,32 +8689,27 @@ SetDatabaseCorrelationOptions
 method : integer
     An integer that tells VisIt what default method to use when automatically
     creating a database correlation. The value must be in the range [0,3].
-
-    +--------------+---------------------------+
-    | **method**   | Description               |
-    +--------------+---------------------------+
-    | 0            | IndexForIndexCorrelation  |
-    +--------------+---------------------------+
-    | 1            | StretchedIndexCorrelation |
-    +--------------+---------------------------+
-    | 2            | TimeCorrelation           |
-    +--------------+---------------------------+
-    | 3            | CycleCorrelation          |
-    +--------------+---------------------------+
+    
+    ==========  =========================
+    **method**  Description
+    ==========  =========================
+    0           IndexForIndexCorrelation
+    1           StretchedIndexCorrelation
+    2           TimeCorrelation
+    3           CycleCorrelation
+    ==========  =========================
 
 whenToCreate : integer
     An integer that tells VisIt when to automatically create database correlations.
     
-    +------------------+--------------------------------------+
-    | **whenToCreate** | Description                          |
-    +------------------+--------------------------------------+
-    | 0                | Always create database correlation   |
-    +------------------+--------------------------------------+
-    | 1                | Never create database correlation    |
-    +------------------+--------------------------------------+
-    | 2                | Create database correlation only     |
-    |                  | if the new time-varying database has |
-    +------------------+--------------------------------------+
+    ================  ===================================
+    **whenToCreate**  Description
+    ================  ===================================
+    0                 Always create database correlation
+    1                 Never create database correlation
+    2                 Create database correlation only if
+                      the new time-varying database has
+    ================  ===================================
 
 return type : CLI_return_t
     SetDatabaseCorrelationOptions returns 1 on success and 0 on failure.
