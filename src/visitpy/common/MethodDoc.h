@@ -198,7 +198,6 @@ extern const char *visit_OpenDatabase_doc;
 extern const char *visit_OpenMDServer_doc;
 extern const char *visit_OperatorPlugins_doc;
 extern const char *visit_OverlayDatabase_doc;
-extern const char *visit_Pick_doc;
 extern const char *visit_PickByGlobalNode_doc;
 extern const char *visit_PickByGlobalZone_doc;
 extern const char *visit_PickByNode_doc;
