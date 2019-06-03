@@ -6789,17 +6789,19 @@ PointPick
 
 ::
 
-  NodePick(namedarg1=arg1, namedarg2=arg2, ...) -> dictionary
+  PointPick(namedarg1=arg1, namedarg2=arg2, ...) -> dictionary
 
 
 coord : tuple
     A tuple of doubles containing the spatial coordinate (x, y, z).
 
 x : integer
-    An integer containing the screen X location (in pixels) offset from the left side of the visualization window.
+    An integer containing the screen X location (in pixels) offset from the
+    left side of the visualization window.
 
 y : integer
-    An integer containing the screen Y location (in pixels) offset from the bottom of the visualization window.
+    An integer containing the screen Y location (in pixels) offset from the
+    bottom of the visualization window.
 
 vars (optional) : tuple
     A tuple of strings with the variable names for which to return
@@ -6852,9 +6854,9 @@ return type : dictionary
   AddPlot("Pseudocolor", "hgslice")
   DrawPlots()
   # Perform node pick in screen space
-  pick_out = NodePick(x=200,y=200)
+  pick_out = PointPick(x=200,y=200)
   # Perform node pick in world space.
-  pick_out = NodePick(coord=(-5.0, 5.0, 0))
+  pick_out = PointPick(coord=(-5.0, 5.0, 0))
 
 
 PrintWindow
@@ -9064,7 +9066,7 @@ SetDefaultMeshManagementAttributes
 
 ::
 
-  GetMeshManagementAttributes() -> MeshmanagementAttributes object
+  SetMeshManagementAttributes() -> MeshmanagementAttributes object
 
 return type : MeshmanagementAttributes object
     Returns a MeshmanagementAttributes object.
@@ -11385,19 +11387,19 @@ TimeSliderSetState
 
 ::
 
-  SetTimeSliderState(state) -> integer
+  TimeSliderSetState(state) -> integer
 
 
 state : integer
     A zero-based integer containing the time state that we want to make active.
 
 return type : CLI_return_t
-    The SetTimeSliderState function returns 1 on success and 0 on failure.
+    The TimeSliderSetState function returns 1 on success and 0 on failure.
 
 
 **Description:**
 
-    The SetTimeSliderState function sets the time state for the active time
+    The TimeSliderSetState function sets the time state for the active time
     slider. This is the function to use if you want to animate through time or
     change the current keyframe frame.
 
@@ -11418,7 +11420,7 @@ return type : CLI_return_t
   for ts in tsNames:
   SetActiveTimeSlider(ts)
   for state in list(range(TimeSliderGetNStates())) + [0]:
-  SetTimeSliderState(state)
+  TimeSliderSetState(state)
 
 
 ToggleBoundingBoxMode
