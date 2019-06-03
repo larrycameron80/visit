@@ -3392,12 +3392,12 @@ GetEngineProperties
   GetEngineProperties(engine, sim) -> EngineProperties object
 
 
-engine : STARTING_VALUE
+engine
     When engine is passed and it matches one of the computer names returned
     from GetEngineList() then the EngineProperties object for that engine is
     returned.
 
-sim : STARTING_VALUE
+sim
     When both engine and sim arguments are passed, then the EngineProperties
     object for the simulation is returned.
 
@@ -5315,7 +5315,7 @@ LoadAttribute
 filename : string
     The name of the XML file to load the attribute from or save the attribute to.
 
-object : STARTING_VALUE
+object
     The object to load or save.
 
 
@@ -6171,7 +6171,7 @@ OverlayDatabase
 databaseName : string
     The name of the new plot database.
 
-state : STARTING_VALUE
+state
     The time state at which to open the database.
 
 return type : CLI_return_t
@@ -7949,7 +7949,7 @@ SaveAttribute
 filename : string
     The name of the XML file to load the attribute from or save the attribute to.
 
-object : STARTING_VALUE
+object
     The object to load or save.
 
 
@@ -8134,7 +8134,7 @@ simulation : string
 command : string
     A string that is the command to send to the simulation.
 
-argument : STARTING_VALUE
+argument
     An argument to the command.
 
 
@@ -9931,7 +9931,7 @@ SetPlotSILRestriction
 silr : SIL restriction object
     A SIL restriction object.
 
-all : STARTING_VALUE
+all
     An optional argument that tells the function if the SIL restriction
     should be applied to all plots in the plot list.
 
