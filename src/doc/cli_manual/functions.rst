@@ -95,7 +95,7 @@ AddMachineProfile
   AddMachineProfile(MachineProfile) -> integer
 
 
-MachineProfile : STARTING_VALUE
+MachineProfile : MachineProfile object
 
 
 **Description:**
@@ -247,7 +247,7 @@ AlterDatabaseCorrelation
 name : string
     The name of the database correlation to be altered.
 
-databases : AMBIGUOUS
+databases : tuple or list of strings
     The databases argument must be a tuple or list of strings containing the
     fully qualified database names to be used in the database correlation.
 
@@ -1003,7 +1003,7 @@ ConstructDataBinning
   ConstructDataBinning(options) -> integer
 
 
-options : STARTING_VALUE
+options : ConstructDataBinningAttributes object
     An object of type ConstructDataBinningAttributes. This object specifies
     the options for constructing a data binning.
 
@@ -1313,9 +1313,9 @@ CreateDatabaseCorrelation
 name : string
     The name of the database correlation to be created.
 
-databases : AMBIGUOUS
-    Tuple or list of string objects containing the names of the databases to
-    involve in the database correlation.
+databases : tuple or list of strings
+    Tuple or list of strings containing the names of the databases to involve
+    in the database correlation.
 
 method : integer
     An integer in the range [0,3] that determines the correlation method.
@@ -1397,7 +1397,7 @@ CreateNamedSelection
 name : string
     The name of a named selection.
 
-properties : STARTING_VALUE
+properties : SelectionProperties object
     This optional argument lets you pass a SelectionProperties object containing
     the properties that will be used to create the named selection. When this
     argument is omitted, the named selection will always be associated with
@@ -2362,7 +2362,7 @@ DemoteOperator
 opIndex : integer
     A zero-based integer corresponding to the operator that should be demoted.
 
-applyToAllPlots : AMBIGUOUS
+applyToAllPlots : integer
     An integer flag that causes all plots in the plot list to be affected when
     it is non-zero.
 
@@ -2770,7 +2770,7 @@ ExportDatabase
   ExportDatabase(e, o) -> integer
 
 
-e : STARTING_VALUE
+e : ExportDBAttributes object
     An object of type ExportDBAttributes.  This object specifies the options
     for exporting the database.
 
@@ -3151,7 +3151,7 @@ GetCallbackArgumentCount
   GetCallbackArgumentCount(callbackName) -> integer
 
 
-callbackName : AMBIGUOUS
+callbackName : string
     The name of a callback function. This name is a member of the tuple
     returned by GetCallbackNames().
 
@@ -3342,11 +3342,11 @@ GetEngineList
   GetEngineList(flag) -> tuple of tuples of strings
 
 
-flag : AMBIGUOUS
+flag : integer
     If flag is a non-zero integer then the function returns a tuple of tuples
     with information about simulations.
 
-return type : AMBIGUOUS
+return type : tuple of strings
     GetEngineList returns a tuple of strings that contain the names of the
     computers on which compute engines are running. If flag is a non-zero
     integer argument then the function returns a tuple of tuples where each
@@ -3714,7 +3714,7 @@ GetMachineProfile
   GetMachineProfile(hostname) -> MachineProfile object
 
 
-hostname : STARTING_VALUE
+hostname : string
 
 
 return type : MachineProfile object
@@ -3735,7 +3735,7 @@ GetMachineProfileNames
 
   GetMachineProfileNames() -> [hostname1, hostname2, ...]
 
-return type : [hostname1, hostname2, ...]
+return type : list of strings
     A list of MachineProfile hostnames
 
 
@@ -3944,7 +3944,7 @@ GetOperatorOptions
   GetOperatorOptions(index) -> operator attributes object
 
 
-index : AMBIGUOUS
+index : integer
     The integer index of the operator within the plot's list of operators.
 
 return type : operator attributes object
@@ -6017,7 +6017,7 @@ timeIndex : integer
     to open the database. If it is not specified, a time index of zero is
     assumed.
 
-dbPluginIndex : AMBIGUOUS
+dbPluginIndex : string
     An optional string containing the name of the plugin to use. Note that
     this string must also include the plugin's version number (with few
     exceptions, almost all plugins' version numbers are 1.0). Note also
@@ -6065,7 +6065,7 @@ OpenMDServer
   OpenMDServer(MachineProfile) -> integer
 
 
-host : STARTING_VALUE
+host : string
     The optional host argument determines the host on which the metadata
     server is to be launched. If this argument is not provided, "localhost"
     is assumed.
@@ -6083,7 +6083,7 @@ args : tuple
     |                   | to specify where VisIt is.     |
     +-------------------+--------------------------------+
 
-MachineProfile : STARTING_VALUE
+MachineProfile : MachineProfile object
     MachineProfile object to load with OpenMDServer call
 
 return type : CLI_return_t
@@ -6827,7 +6827,7 @@ curve_plot_type (optional) : integer
     axis or with multiple axes. 0 -> single Y axis (default),
     1 -> multiple Y Axes.
 
-return type : STARTING_VALUE
+return type : dictionary
     PointPick returns a python dictionary of the pick results,
     unless do_time is specified, then a time curve is created in a new window.
 
@@ -6903,7 +6903,7 @@ PromoteOperator
 opIndex : integer
     A zero-based integer corresponding to the operator that should be promoted.
 
-applyToAllPlots : AMBIGUOUS
+applyToAllPlots : integer
     An integer flag that causes all plots in the plot list to be affected when
     it is non-zero.
 
@@ -7056,12 +7056,12 @@ Query
 name : string
     The name of the query to execute.
 
-dict : AMBIGUOUS
+dict : dictionary
     An optional dictionary containing additional query arguments.
     namedarg1, namedarg2,...
     An optional list of named arguments supplying additional query parameters.
 
-return type : AMBIGUOUS
+return type : see SetQueryOutputToXXX() functions
     The Query function returns either a String (default), Value(s), or Object.
     The return type can be customized via calls to SetQueryOutputToXXX(), where
     'XXX' is 'String', 'Value', or 'Object'. For more information on these
@@ -7116,7 +7116,7 @@ QueryOverTime
 name : string
     The name of the query to execute.
 
-dict : AMBIGUOUS
+dict : dictionary
     An optional dictionary containing additional query arguments.
     namedarg1, namedarg2, ...
     An optional list of named arguments supplying additional query parameters.
@@ -7222,7 +7222,7 @@ ReadHostProfilesFromDirectory
 directory : string
     The name of the directory that contains the host profile XML files.
 
-clear : AMBIGUOUS
+clear : integer
     An integer flag indicating whether the host profile list should cleared first.
 
 return type : CLI_return_t
@@ -7366,7 +7366,7 @@ callbackname : string
     A string object designating the callback that we're installing. Allowable
     values are returned by the GetCallbackNames() function.
 
-callback : STARTING_VALUE
+callback : python function
     A Python function, typically with one argument by which VisIt passes the
     object that caused the callback to be called.
 
@@ -7404,7 +7404,7 @@ RegisterMacro
 name : string
     The name of the macro.
 
-callable : STARTING_VALUE
+callable : python function
     A Python function that will be associated with the macro name.
 
 
@@ -7441,7 +7441,7 @@ RemoveAllOperators
   RemoveAllOperators(all) -> integer
 
 
-all : AMBIGUOUS
+all : integer
     An optional integer argument that tells the function to ignore the
     active plots and use all plots in the plot list if the value of
     the argument is non-zero.
@@ -7486,8 +7486,10 @@ RemoveLastOperator
   RemoveLastOperator(all) -> integer
 
 
-all : AMBIGUOUS
-    An optional integer argument that tells the function to ignore the active plots and use all plots in the plot list if the value of the argument is non-zero.
+all : integer
+    An optional integer argument that tells the function to ignore the active
+    plots and use all plots in the plot list if the value of the argument is
+    non-zero.
 
 return type : CLI_return_t
     All functions return an integer value of 1 for success and 0 for failure.
@@ -7528,7 +7530,7 @@ RemoveMachineProfile
   RemoveMachineProfile(hostname) -> integer
 
 
-hostname : STARTING_VALUE
+hostname : string
     
 
 **Description:**
@@ -7547,12 +7549,12 @@ RemoveOperator
   RemoveOperator(index, all) -> integer
 
 
-all : AMBIGUOUS
+all : integer
     An optional integer argument that tells the function to ignore the
     active plots and use all plots in the plot list if the value of the
     argument is non-zero.
 
-index : AMBIGUOUS
+index : integer
     The zero-based integer index into a plot's operator list that specifies
     which operator is to be deleted.
 
@@ -8105,7 +8107,7 @@ SaveSession
   SaveSession(filename) -> integer
 
 
-filename : STARTING_VALUE
+filename : string
     The filename argument is the filename that is used to save the session
     file. The filename is relative to the current working directory.
 
@@ -8233,7 +8235,7 @@ SetActiveContinuousColorTable
   SetActiveContinuousColorTable(name) -> integer
 
 
-name : AMBIGUOUS
+name : string
     The name of the color table to use for the active color table. The name
     must be present in the tuple returned by the ColorTableNames function.
 
@@ -8279,7 +8281,7 @@ SetActiveDiscreteColorTable
   SetActiveDiscreteColorTable(name) -> integer
 
 
-name : AMBIGUOUS
+name : string
     The name of the color table to use for the active color table. The name
     must be present in the tuple returned by the ColorTableNames function.
 
@@ -8325,7 +8327,7 @@ SetActivePlots
   SetActivePlots(plots) -> integer
 
 
-plots : AMBIGUOUS
+plots : tuple of integers
     A tuple of integer plot indices starting at zero. A single integer is
     also accepted
 
@@ -8489,7 +8491,7 @@ SetAnnotationAttributes
   SetAnnotationAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : AnnotationAttributes object
     An AnnotationAttributes object containing the annotation settings.
 
 return type : CLI_return_t
@@ -8536,7 +8538,7 @@ SetBackendType
   SetBackendType(name) -> integer
 
 
-name : STARTING_VALUE
+name : string
     VTK, VTKM.
 
 return type : CLI_return_t
@@ -8886,7 +8888,7 @@ SetDefaultAnnotationAttributes
   SetDefaultAnnotationAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : AnnotationAttributes object
     An AnnotationAttributes object containing the annotation settings.
 
 return type : CLI_return_t
@@ -8972,7 +8974,7 @@ SetDefaultInteractorAttributes
   SetDefaultInteractorAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : InteractorAttributes object
     An InteractorAttributes object that contains the new interactor attributes
     that you want to use.
 
@@ -9017,7 +9019,7 @@ SetDefaultMaterialAttributes
   SetDefaultMaterialAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : MaterialAttributes object
     A MaterialAttributes object containing the new settings.
 
 return type : CLI_return_t
@@ -9064,7 +9066,7 @@ SetDefaultMeshManagementAttributes
 
   GetMeshManagementAttributes() -> MeshmanagementAttributes object
 
-return type : STARTING_VALUE
+return type : MeshmanagementAttributes object
     Returns a MeshmanagementAttributes object.
 
 
@@ -9104,7 +9106,7 @@ SetDefaultOperatorOptions
   SetDefaultOperatorOptions(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : operator attributes object
     Any type of operator attributes object.
 
 return type : CLI_return_t
@@ -9159,7 +9161,7 @@ SetDefaultPickAttributes
   SetDefaultPickAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : PickAttributes object
     A PickAttributes object containing the new pick settings.
 
 return type : CLI_return_t
@@ -9200,7 +9202,7 @@ SetDefaultPlotOptions
   SetDefaultPlotOptions(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : plot attributes object
     Any type of plot attributes object.
 
 return type : CLI_return_t
@@ -9249,7 +9251,7 @@ SetGlobalLineoutAttributes
   SetGlobalLineoutAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : GlobalLineoutAttributes object
     A GlobalLineoutAttributes object that contains the new settings.
 
 return type : CLI_return_t
@@ -9293,7 +9295,7 @@ SetInteractorAttributes
   SetInteractorAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : InteractorAttributes object
     An InteractorAttributes object that contains the new interactor attributes
     that you want to use.
 
@@ -9338,7 +9340,7 @@ SetKeyframeAttributes
   SetKeyframeAttributes(kfAtts) -> integer
 
 
-kfAtts : STARTING_VALUE
+kfAtts : KeyframeAttributes object
     A KeyframeAttributes object that contains the new keyframing attributes
     to use.
 
@@ -9381,7 +9383,7 @@ SetLight
 index : integer
     A zero-based integer index into the light list. Index can be in the range [0,7].
 
-light : STARTING_VALUE
+light : LightAttributes object
     A LightAttributes object containing the properties to use for the specified light.
 
 return type : CLI_return_t
@@ -9425,7 +9427,8 @@ SetMachineProfile
   SetMachineProfile(MachineProfile) -> integer
 
 
-MachineProfile : STARTING_VALUE
+MachineProfile : MachineProfile object
+    A MachineProfile object containing the new settings.
     
 
 **Description:**
@@ -9444,7 +9447,7 @@ SetMaterialAttributes
   SetMaterialAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : MaterialAttributes object
     A MaterialAttributes object containing the new settings.
 
 return type : CLI_return_t
@@ -9491,7 +9494,7 @@ SetMeshManagementAttributes
 
   GetMeshManagementAttributes() -> MeshmanagementAttributes object
 
-return type : STARTING_VALUE
+return type : MeshmanagementAttributes object
     Returns a MeshmanagementAttributes object.
 
 
@@ -9566,7 +9569,7 @@ SetOperatorOptions
   SetOperatorOptions(atts, operatorIndex, all) -> integer
 
 
-atts : STARTING_VALUE
+atts : operator attributes object
     Any type of operator attributes object.
 
 operatorIndex : integer
@@ -9635,7 +9638,7 @@ SetPickAttributes
   SetPickAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : PickAttributes object
     A PickAttributes object containing the new pick settings.
 
 return type : CLI_return_t
@@ -9889,7 +9892,7 @@ SetPlotOptions
   SetPlotOptions(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : plot attributes object
     Any type of plot attributes object.
 
 return type : CLI_return_t
@@ -10003,7 +10006,7 @@ SetPlotSILRestriction
   SetPlotSILRestriction(silr, all) -> integer
 
 
-silr : STARTING_VALUE
+silr : SIL restriction object
     A SIL restriction object.
 
 all : STARTING_VALUE
@@ -10057,7 +10060,7 @@ SetPrecisionType
 typeAsInt : double
     Precision type specified as an integer. 0 = float 1 = native 2 = double
 
-typeAsString : STARTING_VALUE
+typeAsString : string
     Precision type specified as a string. Options are 'float', 'native',
     and 'double'.
 
@@ -10120,7 +10123,7 @@ SetPrinterAttributes
   SetPrinterAttributes(atts)
 
 
-atts : STARTING_VALUE
+atts : PrinterAttributes object
     A PrinterAttributes object.
 
 
@@ -10300,7 +10303,7 @@ SetQueryOverTimeAttributes
   SetQueryOverTimeAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : QueryOverTimeAttributes object
     A QueryOverTimeAttributes object containing the new settings to use for
     queries over time.
 
@@ -10388,7 +10391,7 @@ SetRenderingAttributes
   SetRenderingAttributes(atts) -> integer
 
 
-atts : STARTING_VALUE
+atts : RenderingAttributes object
     A RenderingAttributes object that contains the rendering attributes that
     we want to make VisIt use.
 
@@ -10437,7 +10440,7 @@ SetSaveWindowAttributes
   SetSaveWindowAttributes(atts)
 
 
-atts : STARTING_VALUE
+atts : SaveWindowAttributes object
     A SaveWindowAttributes object.
 
 
@@ -10628,7 +10631,7 @@ SetView2D
   SetView2D(View2DAttributes) -> integer
 
 
-view : STARTING_VALUE
+view : ViewAttributes object
     A ViewAttributes object containing the view.
 
 return type : CLI_return_t
@@ -10681,7 +10684,7 @@ SetView3D
   SetView3D(View3DAttributes) -> integer
 
 
-view : STARTING_VALUE
+view : ViewAttributes object
     A ViewAttributes object containing the view.
 
 return type : CLI_return_t
@@ -10736,7 +10739,7 @@ SetViewAxisArray
   SetViewAxisArray(ViewAxisArrayAttributes) -> integer
 
 
-view : STARTING_VALUE
+view : ViewAttributes object
     A ViewAttributes object containing the view.
 
 return type : CLI_return_t
@@ -10787,7 +10790,7 @@ SetViewCurve
   SetViewCurve(ViewCurveAttributes) -> integer
 
 
-view : STARTING_VALUE
+view : ViewAttributes object
     A ViewAttributes object containing the view.
 
 return type : CLI_return_t
@@ -11388,7 +11391,7 @@ TimeSliderSetState
 state : integer
     A zero-based integer containing the time state that we want to make active.
 
-return type : STARTING_VALUE
+return type : CLI_return_t
     The SetTimeSliderState function returns 1 on success and 0 on failure.
 
 
@@ -11596,7 +11599,7 @@ ToggleLockTools
   ToggleMaintainViewMode() -> integer
   ToggleSpinMode() -> integer
 
-return type : STARTING_VALUE
+return type : CLI_return_t
     All functions return 1 on success and 0 on failure.
 
 
@@ -12033,7 +12036,7 @@ UpdateNamedSelection
 name : string
     The name of the selection to update.
 
-properties : STARTING_VALUE
+properties : SelectionProperties object
     An optional SelectionProperties object that contains the selection
     properties to use when reevaluating the selection.
 
