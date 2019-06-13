@@ -42,12 +42,16 @@
 
 #include <avtPolylineToTubeFilter.h>
 
-#include <vtkTubeFilter.h>
 #include <vtkAppendPolyData.h>
+#include <vtkCellData.h>
 #include <vtkCleanPolyData.h>
 #include <vtkDataSet.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
+
+// VisIt vtk classes
+#include <vtkVisItTubeFilter.h>
+
 
 // ****************************************************************************
 //  Method: avtPolylineToTubeFilter constructor
@@ -102,6 +106,10 @@ avtPolylineToTubeFilter::~avtPolylineToTubeFilter()
 //    I added code to remove duplicate points from the lines since the 
 //    vtkTubeFilter exits on any lines that have duplicate points.
 //
+//    Kathleen Biagas, Thu Jun 13 13:34:35 PDT 2019
+//    Use vtkVisItTubeFilter instead of vtkTubeFilter. Support cell scalars.
+//    Only use append filter if input contains more than just lines.
+//
 // ****************************************************************************
 
 avtDataRepresentation *
@@ -124,64 +132,65 @@ avtPolylineToTubeFilter::ExecuteData(avtDataRepresentation *inDR)
         return inDR;
     }
 
-    vtkDataArray *activeScalars = inDS->GetPointData()->GetScalars();
+    vtkDataArray *activePtScalars = inDS->GetPointData()->GetScalars();
+    vtkDataArray *activeCellScalars = inDS->GetCellData()->GetScalars();
 
     vtkPolyData *data = vtkPolyData::SafeDownCast(inDS);
-
-    // Clean duplicate points from the polydata.
-    vtkCleanPolyData *cleanFilter = vtkCleanPolyData::New();
-
-    cleanFilter->SetInputData(data);
-
-    cleanFilter->Update();
+    vtkPolyData *output = NULL;
 
     // Create the tube polydata.
-    vtkTubeFilter *tubeFilter = vtkTubeFilter::New();
-
+    vtkVisItTubeFilter *tubeFilter = vtkVisItTubeFilter::New();
+    tubeFilter->SetInputData(data);
     tubeFilter->SetRadius(radius);
     tubeFilter->SetNumberOfSides(numberOfSides);
     tubeFilter->SetCapping(1);
     tubeFilter->ReleaseDataFlagOn();
 
-    if (varyRadius && radiusVar != "" && radiusVar != "\0")
+    if (varyRadius)
     {
-        if (radiusVar != "default")
-            data->GetPointData()->SetActiveScalars(radiusVar.c_str());
-        
+        if (!radiusVar.empty() && radiusVar != "default")
+        {
+            tubeFilter->SetScalarsForRadius(radiusVar.c_str());
+        }
         tubeFilter->SetVaryRadiusToVaryRadiusByScalar();
         tubeFilter->SetRadiusFactor(radiusFactor);
     }
-
-    tubeFilter->SetInputData(cleanFilter->GetOutput());
-
-    cleanFilter->Delete();
-
     tubeFilter->Update();
+    output = tubeFilter->GetOutput();
 
-    // Append the original data and tube polydata
-    vtkAppendPolyData *append = vtkAppendPolyData::New();
+    vtkPolyData *outPD = output;
+    vtkAppendPolyData *append = NULL;
 
-    append->AddInputData(data);
-    append->AddInputData(tubeFilter->GetOutput());
-    
-    tubeFilter->Delete();
+    if (data->GetNumberOfLines() < data->GetNumberOfCells())
+    {
+        // Append the original data and tube polydata
+        append = vtkAppendPolyData::New();
 
-    append->Update();
+        append->AddInputData(data);
+        append->AddInputData(output);
+        append->Update();
+        outPD = append->GetOutput();
+        // KSB:  This seems problematic, as the celldata arrays will now be
+        // incorrect. I think instead the 'data' polydata should have all
+        // non-line cells extracted to a new dataset and then that new dataset
+        // is used in the append filter along with the tube-filter output.
+        // Remove the lines.
+        outPD->SetLines(NULL);
+        outPD->RemoveDeletedCells();
+    }
 
-    // Get the output.
-    vtkPolyData *outPD = append->GetOutput();
     outPD->Register(NULL);
-    append->Delete();
-    
-    // Remove the lines.
-    outPD->SetLines(NULL);
-    outPD->RemoveDeletedCells();
+    if(append)
+        append->Delete();
 
     // Restore the active scalars.
-    if (activeScalars)
+    if (activePtScalars)
     {
-        data->GetPointData()->SetActiveScalars(activeScalars->GetName());
-        outPD->GetPointData()->SetActiveScalars(activeScalars->GetName());
+        outPD->GetPointData()->SetActiveScalars(activePtScalars->GetName());
+    }
+    if (activeCellScalars)
+    {
+        outPD->GetCellData()->SetActiveScalars(activeCellScalars->GetName());
     }
 
     // Create the output data rep.
