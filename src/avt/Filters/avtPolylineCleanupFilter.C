@@ -42,10 +42,8 @@
 
 #include <avtPolylineCleanupFilter.h>
 
-#include <vtkTubeFilter.h>
-#include <vtkAppendPolyData.h>
+#include <vtkCellData.h>
 #include <vtkCleanPolyData.h>
-#include <vtkDataSet.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
 
@@ -99,6 +97,8 @@ avtPolylineCleanupFilter::~avtPolylineCleanupFilter()
 //  Creation:    Mon Nov  7 11:21:19 PST 2016
 //
 //  Modifications:
+//    Kathleen Biagas, Thu Jun 13 10:49:22 PDT 2019
+//    Account for cell-centered data.
 //
 // ****************************************************************************
 
@@ -115,7 +115,8 @@ avtPolylineCleanupFilter::ExecuteData(avtDataRepresentation *inDR)
         return inDR;
     }
 
-    vtkDataArray *activeScalars = inDS->GetPointData()->GetScalars();
+    vtkDataArray *activePtScalars = inDS->GetPointData()->GetScalars();
+    vtkDataArray *activeCellScalars = inDS->GetCellData()->GetScalars();
 
     vtkPolyData *data = vtkPolyData::SafeDownCast(inDS);
 
@@ -130,10 +131,13 @@ avtPolylineCleanupFilter::ExecuteData(avtDataRepresentation *inDR)
     outPD->Register(NULL);
 
     // Restore the active scalars.
-    if (activeScalars)
+    if (activePtScalars)
     {
-        data->GetPointData()->SetActiveScalars(activeScalars->GetName());
-        outPD->GetPointData()->SetActiveScalars(activeScalars->GetName());
+        outPD->GetPointData()->SetActiveScalars(activePtScalars->GetName());
+    }
+    if (activeCellScalars)
+    {
+        outPD->GetCellData()->SetActiveScalars(activeCellScalars->GetName());
     }
 
     // Create the output data rep.
